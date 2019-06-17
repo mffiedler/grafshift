@@ -21,6 +21,9 @@ do
   sleep 1
 done
 
+# Give route a chance to be ready
+sleep 5
+
 grafshift_route=`oc get routes -n grafshift -o=json | jq -r '.items[0].spec.host'`
 
 api_key=`curl -s -H "Content-Type: application/json" -H "Accept: application/json" -X POST -d '{"name":"grafyaml","role":"Admin"}'  http://admin:${GRAFANA_PASSWORD}@${grafshift_route}/api/auth/keys | jq -r '.key'`
